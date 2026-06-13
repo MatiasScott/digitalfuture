@@ -1,0 +1,19 @@
+.login-card h1 {
+    margin-top: 0;
+}
+
+.login-card form {
+    display: grid;
+    gap: 0.8rem;
+}
+
+.login-card label {
+    display: grid;
+    gap: 0.3rem;
+}
+
+.login-card input {
+    border: 1px solid #dbe2ef;
+    border-radius: 10px;
+    padding: 0.65rem 0.75rem;
+}

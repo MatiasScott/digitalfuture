@@ -1,0 +1,8 @@
+.page-head {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.page-head h1 {
+    margin: 0;
+}

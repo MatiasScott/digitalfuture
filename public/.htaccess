@@ -1,0 +1,9 @@
+RewriteEngine On
+
+# Permite acceso directo a archivos y carpetas existentes.
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Redirige el resto de rutas al front controller.
+RewriteRule ^ index.php [QSA,L]
