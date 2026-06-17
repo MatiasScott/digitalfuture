@@ -4,8 +4,8 @@
         <div class="footer-grid">
 
             <div class="col-info">
-                <h4>Congreso AgroVet 2026</h4>
-                <p>La cumbre anual de la medicina y la tecnología veterinaria.</p>
+                <h4>Congreso Digital Future 2026</h4>
+                <p>El encuentro de referencia sobre marketing digital, innovacion y crecimiento.</p>
 
                 <div class="social-links">
                     <a href="https://www.facebook.com/superarse1/" target="_blank" rel="noopener">
@@ -31,14 +31,14 @@
 
             <div class="col-contact">
                 <h4>Contacto</h4>
-                <p>Email: congresoagrovet@superarse.edu.ec</p>
+                <p>Email: congresodigitalfuture@superarse.edu.ec</p>
                 <p>Teléfono: +593 99 559 4742 / +593 99 883 6452</p>
             </div>
 
         </div>
 
         <div class="copyright">
-            &copy; <?= date('Y'); ?> Congreso AgroVet-Sostenible - Superarse. Todos los derechos reservados.
+            &copy; <?= date('Y'); ?> Congreso Digital Future de Marketing Digital. Todos los derechos reservados.
         </div>
 
     </div>

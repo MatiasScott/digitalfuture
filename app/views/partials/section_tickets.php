@@ -42,7 +42,7 @@
 
         <div class="payment-instructions-container">
             <h3>Instrucciones para Pago por Transferencia</h3>
-            <p>Por favor, realiza el depósito o transferencia del monto total a la siguiente cuenta bancaria y luego adjunta el comprobante en el formulario de registro a continuación.</p>
+            <p>Realiza el deposito o transferencia del monto total a la siguiente cuenta bancaria y luego adjunta el comprobante en el formulario de registro.</p>
 
             <div class="bank-details-card">
                 <ul>
@@ -55,7 +55,7 @@
                 </ul>
             </div>
 
-            <p class="verification-note">La inscripción será validada una vez que el equipo de Superarse confirme la recepción del comprobante de pago.</p>
+            <p class="verification-note">La inscripcion sera validada una vez que el equipo organizador confirme la recepcion del comprobante de pago.</p>
         </div>
 
         <div class="registration-layout">
@@ -63,7 +63,7 @@
             <!-- Video tutorial (70%) -->
             <div class="video-container">
                 <video controls autoplay>
-                    <source src="video/TutorialPagosAgrovet.mp4" type="video/mp4">
+                    <source src="<?= BASE_PATH ?>/video/TutorialPagosDigitalFuture.mp4" type="video/mp4">
                     Tu navegador no soporta videos.
                 </video>
             </div>

@@ -1,7 +1,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title><?= $data['titulo'] ?? 'AgroVet - Congreso Veterinario'; ?></title>
+<title><?= $data['titulo'] ?? 'Congreso Digital Future de Marketing Digital'; ?></title>
 
 <!-- CSS principal -->
 <link rel="stylesheet" href="<?= BASE_PATH ?>/css/styles.css">
@@ -18,6 +18,6 @@
 <!-- Favicon -->
 <link
     rel="icon"
-    href="<?= BASE_PATH ?>/img/05 Icono/CertfEASMesa de trabajo 1 copia 12.png"
+    href="<?= BASE_PATH ?>/img/logodigitalfuture.jpg"
     type="image/x-icon"
 >

@@ -7,22 +7,24 @@
     <title><?= htmlspecialchars($titulo ?? 'Confirmación') ?></title>
 
     <!-- Favicon (ajusta la ruta si es necesario) -->
-    <link rel="icon" href="/landing_agrovet/public/img/05 Icono/CertfEASMesa de trabajo 1 copia 12.png" type="image/x-icon">
+    <link rel="icon" href="<?= BASE_PATH ?>/img/logodigitalfuture.jpg" type="image/x-icon">
 
     <style>
         :root {
-            --color-primary: #AACC05;
-            --color-secondary: #FC6600;
-            --color-tertiary: #566E3A;
+            --color-primary: #0165D9;
+            --color-secondary: #7E30BB;
+            --color-tertiary: #010C42;
+            --color-accent-cyan: #00B5F4;
+            --color-accent-pink: #E23372;
             --color-background: #FFFFFF;
-            --color-background-compuesto: #232323;
+            --color-background-compuesto: #010C42;
         }
 
         body {
             margin: 0;
             background: linear-gradient(135deg,
-                rgba(170, 204, 5, 0.12),
-                rgba(252, 102, 0, 0.08));
+                rgba(0, 181, 244, 0.14),
+                rgba(126, 48, 187, 0.10));
             font-family: 'Inter', sans-serif;
         }
 
@@ -77,7 +79,8 @@
             font-weight: 700;
             letter-spacing: .5px;
             background: rgba(252, 102, 0, .15);
-            color: var(--color-secondary);
+            background: rgba(226, 51, 114, .12);
+            color: var(--color-accent-pink);
         }
 
         .confirmation-box a {

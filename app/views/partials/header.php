@@ -4,13 +4,13 @@
         <!-- LOGO -->
         <a href="<?= BASE_PATH ?>/" class="logo">
             <img
-                src="<?= BASE_PATH ?>/img/LogoPositivoConSuperarsePositivo.png"
-                alt="Logo AgroVet"
-                width="150"
+                src="<?= BASE_PATH ?>/img/logodigitalfuture.jpg"
+                alt="Logo Digital Future"
+                width="180"
             >
         </a>
 
-        <!-- NAVEGACI0ˆ7N -->
+        <!-- NAVEGACIï¿½0ï¿½7N -->
         <nav class="main-nav">
             <ul>
                 <li><a href="#about">Acerca</a></li>
@@ -26,14 +26,14 @@
                         class="btn btn-primary"
                         target="_blank"
                     >
-                        Gestion de Inscripciones
+                        Gestion del Congreso
                     </a>
                 </li>
             </ul>
         </nav>
 
-        <!-- MEN0‰3 MOBILE -->
-        <button class="menu-toggle" aria-label="Men¨²">
+        <!-- MENï¿½0ï¿½3 MOBILE -->
+        <button class="menu-toggle" aria-label="Menï¿½ï¿½">
             <i class="fa-solid fa-bars"></i>
         </button>
 

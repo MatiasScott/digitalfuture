@@ -26,8 +26,8 @@ $payphoneCurrency = $GLOBALS['payphoneCurrency'] ?? 'USD';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pasarela de pagos - Superarse</title>
-    <link rel="icon" type="image/png" href="/superarseconectadosv2/public/assets/img/logoSuperarse.png" />
+    <title>Pasarela de pagos - Digital Future</title>
+    <link rel="icon" type="image/png" href="<?= BASE_PATH ?>/img/logodigitalfuture.jpg" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         crossorigin="anonymous">
     <script src="https://cdn.payphonetodoesposible.com/box/v1.1/payphone-payment-box.js"></script>
@@ -38,9 +38,12 @@ $payphoneCurrency = $GLOBALS['payphoneCurrency'] ?? 'USD';
             theme: {
                 extend: {
                     colors: {
-                        'superarse-morado-oscuro': '#4A148C',
-                        'superarse-morado-medio': '#673AB7',
-                        'superarse-rosa': '#E91E63',
+                        'digitalfuture-navy': '#010C42',
+                        'digitalfuture-blue': '#0165D9',
+                        'digitalfuture-cyan': '#00B5F4',
+                        'digitalfuture-violet': '#5E36C9',
+                        'digitalfuture-purple': '#7E30BB',
+                        'digitalfuture-pink': '#E23372',
                     }
                 }
             }
@@ -49,15 +52,15 @@ $payphoneCurrency = $GLOBALS['payphoneCurrency'] ?? 'USD';
 </head>
 
 <body class="bg-gray-100 min-h-screen flex flex-col justify-between">
-    <header class="bg-superarse-morado-oscuro text-white text-center py-3 shadow-sm">
+    <header class="bg-digitalfuture-navy text-white text-center py-3 shadow-sm">
         <div class="container">
-            <p class="lead mb-0">Plataforma de Pagos - AGROVET</p>
+            <p class="lead mb-0">Plataforma de Pagos - Digital Future</p>
         </div>
     </header>
 
     <main class="container mx-auto p-4 flex-grow flex items-center justify-center">
         <div class="w-full max-w-lg">
-            <h1 class="text-3xl font-bold text-center text-superarse-morado-oscuro mb-6">
+            <h1 class="text-3xl font-bold text-center text-digitalfuture-blue mb-6">
                 Procesando Pago
             </h1>
             <div id="pp-button" class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
@@ -131,7 +134,7 @@ $payphoneCurrency = $GLOBALS['payphoneCurrency'] ?? 'USD';
 
     <footer class="bg-dark text-white text-center py-3">
         <div class="container">
-            <p class="mb-0">&copy; 2025 Instituto Superarse. Todos los derechos reservados.</p>
+            <p class="mb-0">&copy; <?= date('Y') ?> Congreso Digital Future. Todos los derechos reservados.</p>
         </div>
     </footer>
 </body>

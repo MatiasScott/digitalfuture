@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acceso Administrativo | AgroVet</title>
+    <title>Acceso Administrativo | Digital Future</title>
 
     <link rel="stylesheet" href="<?= BASE_PATH ?>/css/admin.css">
-    <link rel="icon" href="<?= BASE_PATH ?>/img/05 Icono/CertfEASMesa de trabajo 1 copia 12.png" type="image/x-icon">
+    <link rel="icon" href="<?= BASE_PATH ?>/img/logodigitalfuture.jpg" type="image/x-icon">
 </head>
 
 <body class="admin-auth-body">
@@ -18,18 +18,18 @@
 
             <!-- Logo -->
             <div class="admin-auth-logo">
-                <img src="<?= BASE_PATH ?>/img/02 Versión Compuesta/CertfEASMesa de trabajo 1.png"
-                    alt="Logo AgroVet">
+                <img src="<?= BASE_PATH ?>/img/logodigitalfuture.jpg"
+                    alt="Logo Digital Future">
             </div>
 
             <!-- Título -->
             <h1 class="admin-auth-title">Panel Administrativo</h1>
             <p class="admin-auth-subtitle">
-                Gestión de inscripciones AgroVet
+                Gestion de inscripciones Digital Future
             </p>
 
             <!-- Formulario -->
-            <form action="<?= BASE_PATH ?>/admin/authenticate"
+            <form action="<?= BASE_URL ?>/admin/authenticate"
                 method="POST"
                 class="admin-auth-form">
 

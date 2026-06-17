@@ -17,7 +17,7 @@ class HomeController
     {
         // En este punto podemos pasar datos dinámicos si es necesario
         $data = [
-            'titulo' => 'Congreso Agrovet Sostenible'
+            'titulo' => 'Congreso Digital Future de Marketing Digital'
         ];
 
         // Usamos la función renderView para cargar la vista principal
@@ -196,7 +196,7 @@ class HomeController
         $tax = 0;
         $amountWithoutTax = $amount;
 
-        $clientTransactionId = uniqid('AGROVET_' . date('Ymd_His') . '_', true);
+        $clientTransactionId = uniqid('DIGITALFUTURE_' . date('Ymd_His') . '_', true);
 
         $GLOBALS['esPasarelaPayphone'] = true;
         $GLOBALS['clientTransactionId'] = $clientTransactionId;

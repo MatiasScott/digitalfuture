@@ -26,9 +26,6 @@ define('PUBLIC_PATH', PROJECT_ROOT . '/public');
 // CONFIGURACIÓN DE URLS
 // ===========================================
 
-// Dominio absoluto (para assets, imágenes, SEO, correos, etc.)
-define('BASE_PATH', 'https://agrovet.superarse.ec');
-
 // Ruta base dinámica del proyecto dentro del servidor (ej: /digitalfuture/public)
 $scriptDir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '/'));
 $scriptDir = rtrim($scriptDir, '/');
@@ -36,6 +33,11 @@ if ($scriptDir === '') {
     $scriptDir = '/';
 }
 define('BASE_URL', $scriptDir);
+
+// URL absoluta dinámica del proyecto actual.
+$requestScheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+$requestHost = $_SERVER['HTTP_HOST'] ?? 'localhost';
+define('BASE_PATH', rtrim($requestScheme . '://' . $requestHost . BASE_URL, '/'));
 
 // ===========================================
 // AUTOLOADER BÁSICO (Controllers, Models, Config)

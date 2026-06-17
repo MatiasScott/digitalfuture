@@ -2,22 +2,24 @@
 /* 1. VARIABLES Y RESET BÁSICO */
 /* ==================================== */
 :root {
-    /* Paleta de Colores AGROVET */
-    --color-primary: #AACC05;
-    /* Verde Neón (CTAs, Highlight) */
-    --color-secondary: #FC6600;
-    /* Naranja Brillante (Accents) */
-    --color-tertiary: #566E3A;
-    /* Verde Oscuro */
+    /* Paleta de colores Digital Future */
+    --color-primary: #0165D9;
+    /* Azul principal */
+    --color-secondary: #7E30BB;
+    /* Morado principal */
+    --color-tertiary: #010C42;
+    /* Azul marino */
+    --color-accent-cyan: #00B5F4;
+    --color-accent-violet: #5E36C9;
+    --color-accent-magenta: #CB2E8B;
+    --color-accent-pink: #E23372;
     --color-background: #FFFFFF;
-    --color-background-compuesto: #232323;
-    /* Fondo Principal (Gris Oscuro) */
+    --color-background-compuesto: #010C42;
+    /* Fondo principal oscuro */
     --color-text-light: #FFFFFF;
-    /* Texto sobre fondo oscuro */
-    --color-text-dark: #232323;
-    --color-text-dark-60: #23232399;
-    --color-text-dark-70: #232323B3;
-    /* Texto sobre fondo claro */
+    --color-text-dark: #010C42;
+    --color-text-dark-60: #010C4299;
+    --color-text-dark-70: #010C42B3;
 
     /* Tipografía */
     --font-main: 'Avenir LT Std', 'Avenir LT', 'Avenir', sans-serif;
@@ -101,7 +103,6 @@ a {
 .btn-primary {
     background-color: var(--color-primary);
     color: var(--color-text-light);
-    /* Texto oscuro sobre neón */
 }
 
 .btn-primary:hover {
@@ -117,7 +118,7 @@ a {
 
 .btn-secondary:hover {
     background-color: var(--color-primary);
-    color: var(--color-text-dark);
+    color: var(--color-text-light);
 }
 
 .btn-large {

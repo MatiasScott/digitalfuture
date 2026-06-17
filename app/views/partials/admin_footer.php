@@ -2,7 +2,7 @@
     <div class="admin-footer-inner">
 
         <div class="footer-left">
-            <strong>Gestión AgroVet</strong><br>
+            <strong>Gestion Digital Future</strong><br>
             <span>Panel administrativo</span>
         </div>
 
