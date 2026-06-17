@@ -1,0 +1,139 @@
+<?php
+$status = $_GET['status'] ?? null;
+
+if ($status === 'success') {
+    exit();
+} elseif ($status === 'failure') {
+    exit();
+}
+
+if (!isset($GLOBALS['esPasarelaPayphone'])) {
+    echo "Acceso directo a la pasarela no permitido. Inicia el pago desde el dashboard.";
+    exit();
+}
+$clientTransactionId = $GLOBALS['clientTransactionId'];
+$amount = $GLOBALS['amount'];
+$amountWithoutTax = $GLOBALS['amountWithoutTax'];
+$tax = $GLOBALS['tax'];
+$referencia = $GLOBALS['referencia'];
+$payphoneToken = $GLOBALS['payphoneToken'] ?? '';
+$payphoneStoreId = $GLOBALS['payphoneStoreId'] ?? '';
+$payphoneCurrency = $GLOBALS['payphoneCurrency'] ?? 'USD';
+?>
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pasarela de pagos - Superarse</title>
+    <link rel="icon" type="image/png" href="/superarseconectadosv2/public/assets/img/logoSuperarse.png" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        crossorigin="anonymous">
+    <script src="https://cdn.payphonetodoesposible.com/box/v1.1/payphone-payment-box.js"></script>
+    <link href="https://cdn.payphonetodoesposible.com/box/v1.1/payphone-payment-box.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'superarse-morado-oscuro': '#4A148C',
+                        'superarse-morado-medio': '#673AB7',
+                        'superarse-rosa': '#E91E63',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex flex-col justify-between">
+    <header class="bg-superarse-morado-oscuro text-white text-center py-3 shadow-sm">
+        <div class="container">
+            <p class="lead mb-0">Plataforma de Pagos - AGROVET</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 flex-grow flex items-center justify-center">
+        <div class="w-full max-w-lg">
+            <h1 class="text-3xl font-bold text-center text-superarse-morado-oscuro mb-6">
+                Procesando Pago
+            </h1>
+            <div id="pp-button" class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+                <p class="text-center text-gray-500">El botón de Payphone debe aparecer aquí.</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+    window.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        new PPaymentButtonBox({
+            token: '<?= addslashes($payphoneToken) ?>',
+            clientTransactionId: '<?= $clientTransactionId ?>',
+            amount: <?= (int)$amount ?>,
+            amountWithoutTax: <?= (int)$amountWithoutTax ?>,
+            tax: <?= (int)$tax ?>,
+            currency: "<?= addslashes($payphoneCurrency) ?>",
+            storeId: "<?= addslashes($payphoneStoreId) ?>",
+            reference: "<?= addslashes($referencia) ?>",
+            
+            // IMPORTANTE: Deja estas dos líneas comentadas o bórralas
+            // responseUrl: "<?= BASE_URL ?>/home/payphoneResponse", 
+            
+            onCompleted: (model, actions) => {
+                console.log("¡Pago aprobado por Payphone! Iniciando registro local...");
+                
+                if (model.status === 'Approved') {
+                    const datosVenta = new FormData();
+                    datosVenta.append('primer_nombre', urlParams.get('primer_nombre') || "");
+                    datosVenta.append('segundo_nombre', urlParams.get('segundo_nombre') || "");
+                    datosVenta.append('primer_apellido', urlParams.get('primer_apellido') || "");
+                    datosVenta.append('segundo_apellido', urlParams.get('segundo_apellido') || "");
+                    datosVenta.append('correo', urlParams.get('correo') || "");
+                    datosVenta.append('cedula', urlParams.get('cedula') || "");
+                    datosVenta.append('telefono', urlParams.get('telefono') || "");
+                    datosVenta.append('institucion', urlParams.get('institucion') || "");
+                    datosVenta.append('ciudad', urlParams.get('ciudad') || "");
+                    datosVenta.append('pais', urlParams.get('pais') || "");
+                    datosVenta.append('tipo_entrada', urlParams.get('tipo_entrada') || "");
+                    datosVenta.append('monto', <?= $amount / 100 ?>);
+                    datosVenta.append('transactionId', model.transactionId);
+                    datosVenta.append('clientTransactionId', '<?= $clientTransactionId ?>');
+    
+                    // Forzamos el envío ANTES de cambiar de página
+                    fetch('<?= BASE_URL ?>/home/registrarVentaPayphone', {
+                        method: 'POST',
+                        body: datosVenta
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log("Servidor respondió:", data);
+                        if (data.success) {
+                            // RECIÉN AQUÍ redirigimos
+                            window.location.href = "<?= BASE_URL ?>/home/payphoneResponse?id=" + model.transactionId + "&clientTransactionId=<?= $clientTransactionId ?>";
+                        } else {
+                            alert("Error al guardar en BD: " + data.message);
+                        }
+                    })
+                    .catch(err => {
+                        console.error("Error en fetch:", err);
+                        alert("Error de conexión al registrar. El pago se hizo pero no se guardó en BD.");
+                    });
+                }
+            }
+        }).render('pp-button');
+    });
+    </script>
+    <!--<script src="/js/pasarela.js"></script>-->
+
+    <footer class="bg-dark text-white text-center py-3">
+        <div class="container">
+            <p class="mb-0">&copy; 2025 Instituto Superarse. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+</body>
+
+</html>

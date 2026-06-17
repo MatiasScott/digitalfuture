@@ -1,37 +1,45 @@
 <?php
-
-declare(strict_types=1);
+require_once 'db_credentials.php';
 
 class Database
 {
-    private static ?PDO $connection = null;
+    private static $instance = null;
+    private $connection;
 
-    public static function connection(): PDO
+    private function __construct()
     {
-        if (self::$connection instanceof PDO) {
-            return self::$connection;
+        // La conexión se realiza en el constructor privado
+        $dsn = 'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=' . DB_CHARSET;
+        $options = [
+            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES   => false,
+        ];
+
+        try {
+            $this->connection = new PDO($dsn, DB_USER, DB_PASS, $options);
+        } catch (\PDOException $e) {
+            // En un entorno de producción, esto debería ir a un log, no mostrarse al usuario
+            die("Error de conexión a la BD: " . $e->getMessage());
         }
-
-        $host = Env::get('DB_HOST', '127.0.0.1');
-        $port = Env::get('DB_PORT', '3306');
-        $db = Env::get('DB_NAME', 'congreso_db');
-        $user = Env::get('DB_USER', 'root');
-        $pass = Env::get('DB_PASS', '');
-        $charset = Env::get('DB_CHARSET', 'utf8mb4');
-
-        $dsn = sprintf('mysql:host=%s;port=%s;dbname=%s;charset=%s', $host, $port, $db, $charset);
-
-        self::$connection = new PDO(
-            $dsn,
-            $user,
-            $pass,
-            [
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                PDO::ATTR_EMULATE_PREPARES => false,
-            ]
-        );
-
-        return self::$connection;
     }
+
+    // Método estático para obtener la única instancia de la clase (Singleton)
+    public static function getInstance()
+    {
+        if (!self::$instance) {
+            self::$instance = new Database();
+        }
+        return self::$instance;
+    }
+
+    // Método para obtener el objeto PDO de conexión
+    public function getConnection()
+    {
+        return $this->connection;
+    }
+
+    // Evitar clonación y deserialización
+    private function __clone() {}
+    public function __wakeup() {}
 }

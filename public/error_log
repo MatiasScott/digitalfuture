@@ -1,0 +1,31 @@
+[18-Dec-2025 18:38:28 UTC] PHP Warning:  Constant BASE_PATH already defined in /home2/superar1/public_html/landing_agrovet/app/config/db_credentials.php on line 11
+[18-Dec-2025 19:15:31 UTC] PHP Warning:  move_uploaded_file(https://agrovet.superarse.ec/uploads/1766085331_694452d34e56b.pdf): Failed to open stream: HTTP wrapper does not support writeable connections in /home2/superar1/public_html/landing_agrovet/app/controllers/HomeController.php on line 106
+[18-Dec-2025 19:15:31 UTC] PHP Warning:  move_uploaded_file(): Unable to move '/tmp/phps5qTf1' to 'https://agrovet.superarse.ec/uploads/1766085331_694452d34e56b.pdf' in /home2/superar1/public_html/landing_agrovet/app/controllers/HomeController.php on line 106
+[18-Dec-2025 19:15:31 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home2/superar1/public_html/landing_agrovet/app/controllers/HomeController.php:106) in /home2/superar1/public_html/landing_agrovet/app/controllers/HomeController.php on line 120
+[18-Dec-2025 19:16:00 UTC] PHP Warning:  move_uploaded_file(https://agrovet.superarse.ec/uploads/1766085360_694452f01e3ba.pdf): Failed to open stream: HTTP wrapper does not support writeable connections in /home2/superar1/public_html/landing_agrovet/app/controllers/HomeController.php on line 106
+[18-Dec-2025 19:16:00 UTC] PHP Warning:  move_uploaded_file(): Unable to move '/tmp/phpHqEI4H' to 'https://agrovet.superarse.ec/uploads/1766085360_694452f01e3ba.pdf' in /home2/superar1/public_html/landing_agrovet/app/controllers/HomeController.php on line 106
+[18-Dec-2025 19:16:00 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home2/superar1/public_html/landing_agrovet/app/controllers/HomeController.php:106) in /home2/superar1/public_html/landing_agrovet/app/controllers/HomeController.php on line 120
+[18-Dec-2025 19:16:42 UTC] PHP Warning:  move_uploaded_file(https://agrovet.superarse.ec/uploads/1766085402_6944531a7c408.pdf): Failed to open stream: HTTP wrapper does not support writeable connections in /home2/superar1/public_html/landing_agrovet/app/controllers/HomeController.php on line 106
+[18-Dec-2025 19:16:42 UTC] PHP Warning:  move_uploaded_file(): Unable to move '/tmp/phpayoCAU' to 'https://agrovet.superarse.ec/uploads/1766085402_6944531a7c408.pdf' in /home2/superar1/public_html/landing_agrovet/app/controllers/HomeController.php on line 106
+[18-Dec-2025 19:16:42 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home2/superar1/public_html/landing_agrovet/app/controllers/HomeController.php:106) in /home2/superar1/public_html/landing_agrovet/app/controllers/HomeController.php on line 120
+[18-Dec-2025 19:17:00 UTC] PHP Warning:  mkdir(): Permission denied in /home2/superar1/public_html/landing_agrovet/app/controllers/HomeController.php on line 102
+[18-Dec-2025 19:17:00 UTC] PHP Warning:  move_uploaded_file(/landing_agrovet/uploads/1766085420_6944532cc839a.pdf): Failed to open stream: No such file or directory in /home2/superar1/public_html/landing_agrovet/app/controllers/HomeController.php on line 106
+[18-Dec-2025 19:17:00 UTC] PHP Warning:  move_uploaded_file(): Unable to move '/tmp/phpGybTpv' to '/landing_agrovet/uploads/1766085420_6944532cc839a.pdf' in /home2/superar1/public_html/landing_agrovet/app/controllers/HomeController.php on line 106
+[18-Dec-2025 19:17:00 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home2/superar1/public_html/landing_agrovet/app/controllers/HomeController.php:102) in /home2/superar1/public_html/landing_agrovet/app/controllers/HomeController.php on line 120
+[18-Dec-2025 19:17:24 UTC] PHP Warning:  mkdir(): Permission denied in /home2/superar1/public_html/landing_agrovet/app/controllers/HomeController.php on line 102
+[18-Dec-2025 19:17:24 UTC] PHP Warning:  move_uploaded_file(/landing_agrovet/uploads/1766085444_69445344ad5e0.pdf): Failed to open stream: No such file or directory in /home2/superar1/public_html/landing_agrovet/app/controllers/HomeController.php on line 106
+[18-Dec-2025 19:17:24 UTC] PHP Warning:  move_uploaded_file(): Unable to move '/tmp/phpdyXXzS' to '/landing_agrovet/uploads/1766085444_69445344ad5e0.pdf' in /home2/superar1/public_html/landing_agrovet/app/controllers/HomeController.php on line 106
+[18-Dec-2025 19:17:24 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home2/superar1/public_html/landing_agrovet/app/controllers/HomeController.php:102) in /home2/superar1/public_html/landing_agrovet/app/controllers/HomeController.php on line 120
+[28-Jan-2026 21:05:37 UTC] PHP Parse error:  syntax error, unexpected token "<", expecting end of file in /home2/superar1/public_html/landing_agrovet/app/views/confirmacion_view.php on line 4
+[28-Jan-2026 21:06:22 UTC] PHP Notice:  ob_clean(): Failed to delete buffer. No buffer to delete in /home2/superar1/public_html/landing_agrovet/app/views/confirmacion_view.php on line 2
+[03-Feb-2026 18:41:11 UTC] PHP Fatal error:  Cannot redeclare HomeController::registrarVentaPayphone() in /home2/superar1/public_html/landing_agrovet/app/controllers/HomeController.php on line 273
+[03-Feb-2026 20:13:53 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "PAYPHONE_TOKEN" in /home2/superar1/public_html/landing_agrovet/app/controllers/HomeController.php:317
+Stack trace:
+#0 /home2/superar1/public_html/landing_agrovet/public/index.php(123): HomeController->payphoneResponse()
+#1 {main}
+  thrown in /home2/superar1/public_html/landing_agrovet/app/controllers/HomeController.php on line 317
+[03-Feb-2026 20:14:13 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "PAYPHONE_TOKEN" in /home2/superar1/public_html/landing_agrovet/app/controllers/HomeController.php:317
+Stack trace:
+#0 /home2/superar1/public_html/landing_agrovet/public/index.php(123): HomeController->payphoneResponse()
+#1 {main}
+  thrown in /home2/superar1/public_html/landing_agrovet/app/controllers/HomeController.php on line 317
