@@ -72,8 +72,23 @@ $payphoneCurrency = $GLOBALS['payphoneCurrency'] ?? 'USD';
     <script>
     window.addEventListener('DOMContentLoaded', function() {
         const urlParams = new URLSearchParams(window.location.search);
+        const paymentContainer = document.getElementById('pp-button');
+
+        function mostrarErrorPago(message) {
+            paymentContainer.innerHTML = `
+                <div class="rounded-xl border border-red-200 bg-red-50 p-5 text-center text-red-700">
+                    <h2 class="mb-2 text-xl font-semibold">Algo salio mal</h2>
+                    <p>${message}</p>
+                </div>
+            `;
+        }
+
+        if (!window.PPaymentButtonBox) {
+            mostrarErrorPago('No se pudo cargar el modulo de PayPhone. Recarga la pagina e intenta nuevamente.');
+            return;
+        }
         
-        new PPaymentButtonBox({
+        const paymentBox = new PPaymentButtonBox({
             token: '<?= addslashes($payphoneToken) ?>',
             clientTransactionId: '<?= $clientTransactionId ?>',
             amount: <?= (int)$amount ?>,
@@ -82,9 +97,8 @@ $payphoneCurrency = $GLOBALS['payphoneCurrency'] ?? 'USD';
             currency: "<?= addslashes($payphoneCurrency) ?>",
             storeId: "<?= addslashes($payphoneStoreId) ?>",
             reference: "<?= addslashes($referencia) ?>",
-            
-            // IMPORTANTE: Deja estas dos líneas comentadas o bórralas
-            // responseUrl: "<?= BASE_URL ?>/home/payphoneResponse", 
+            responseUrl: "<?= BASE_PATH ?>/home/payphoneResponse",
+            cancelUrl: "<?= BASE_PATH ?>/response/error?msg=Pago%20cancelado%20por%20el%20usuario",
             
             onCompleted: (model, actions) => {
                 console.log("¡Pago aprobado por Payphone! Iniciando registro local...");
@@ -126,8 +140,22 @@ $payphoneCurrency = $GLOBALS['payphoneCurrency'] ?? 'USD';
                         alert("Error de conexión al registrar. El pago se hizo pero no se guardó en BD.");
                     });
                 }
+            },
+            onError: (error) => {
+                console.error('PayPhone error:', error);
+                const message = error && error.message
+                    ? error.message
+                    : 'No fue posible iniciar el cobro con PayPhone. Verifica la configuracion del comercio y vuelve a intentar.';
+                mostrarErrorPago(message);
             }
-        }).render('pp-button');
+        });
+
+        try {
+            paymentBox.render('pp-button');
+        } catch (error) {
+            console.error('Error al renderizar PayPhone:', error);
+            mostrarErrorPago('No fue posible inicializar el boton de PayPhone.');
+        }
     });
     </script>
     <!--<script src="/js/pasarela.js"></script>-->

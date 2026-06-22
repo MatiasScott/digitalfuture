@@ -131,4 +131,4 @@
     const BASE_URL = "<?= BASE_URL ?>";
 </script>
 
-<script src="/js/formularioPago.js"></script>
+<script src="<?= BASE_PATH ?>/js/formularioPago.js"></script>

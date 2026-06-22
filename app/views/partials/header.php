@@ -18,7 +18,7 @@
                 <li><a href="#agenda">Agenda</a></li>
                 <li><a href="#tickets">Pagos</a></li>
                 <li><a href="#contact">Contacto</a></li>
-                <li><a href="/docs/BrochureCongresoV5_compressed.pdf" target="_blank">Brochure</a></li>
+                <li><a href="<?= BASE_PATH ?> /docs/BROCHURE_digitalfuture.pdf" target="_blank">Brochure</a></li>
 
                 <li class="mobile-cta">
                     <a

@@ -27,30 +27,35 @@ function datosBasicosValidos() {
 
 // 🧾 TRANSFERENCIA
 function mostrarTransferencia(event) {
-    
     if (!datosBasicosValidos()) {
+        if (event) {
+            event.preventDefault();
+        }
         alert('Completa todos los datos obligatorios del formulario.');
         return;
     }
 
     const seccionComprobante = document.getElementById('comprobante-section');
+    const form = document.getElementById('registration-form');
+
+    form.action = BASE_URL + "/home/procesarPago";
+    form.method = "POST";
 
     // Si la secci�n no es visible, la mostramos y detenemos el env�o
     if (seccionComprobante.style.display === 'none' || seccionComprobante.style.display === '') {
+        if (event) {
+            event.preventDefault();
+        }
+
         seccionComprobante.style.display = 'block';
         document.getElementById('comprobante').required = true;
 
-        // Configuramos el action del form
-        const form = document.getElementById('registration-form');
-        form.action = BASE_URL + "/home/procesarPago";
-        form.method = "POST";
-
         alert('Ahora selecciona el comprobante y vuelve a presionar el bot�n para finalizar.');
 
-        // Evitamos que el formulario se env�e esta primera vez
-        event.preventDefault();
+        return;
     }
-    // Si ya es visible, el "submit" natural del bot�n enviar� el formulario al action configurado.
+
+    // Si ya es visible, el submit natural del boton enviara el formulario.
 }
 
 

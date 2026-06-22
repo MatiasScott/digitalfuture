@@ -132,12 +132,7 @@
 
             <p>
                 Se puede comunicar con el área de gestión de pagos al tlf:
-                <span class="highlight">0990472515 (Msc. Jenny Siza)</span>
-            </p>
-
-            <p>
-                Recibirás un correo electrónico cuando tu estado cambie a
-                <span class="highlight">APROBADO</span>.
+                <span class="highlight">098 387 3798 Dirección de Docencia</span>
             </p>
 
             <a href="<?= BASE_PATH ?>/">Volver al Inicio</a>
