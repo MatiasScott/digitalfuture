@@ -5,38 +5,26 @@
         <div class="pricing-grid">
 
             <div class="ticket-card student">
-                <h3>Entrada Estudiante</h3>
+                <h3>Estudiantes y Academicos</h3>
                 <p class="price">$25 USD</p>
                 <ul>
                     <li>Acceso a todas las conferencias</li>
                     <li>Kit</li>
                     <li>Certificado</li>
                 </ul>
-                <button class="btn btn-primary select-ticket" data-type="Estudiante" data-price="25">Seleccionar</button>
+                <button class="btn btn-primary select-ticket" data-type="Academico" data-price="25">Seleccionar</button>
             </div>
 
             <div class="ticket-card basic">
-                <h3>Entrada Profesional</h3>
-                <p class="price">$60 USD</p>
+                <h3>Publico Externo</h3>
+                <p class="price">$50 USD</p>
                 <ul>
                     <li>Acceso a todas las conferencias</li>
                     <li>Kit</li>
                     <li>Credenciales</li>
                     <li>Certificado de Asistencia Digital</li>
                 </ul>
-                <button class="btn btn-primary select-ticket" data-type="Profesional" data-price="60">Seleccionar</button>
-            </div>
-
-            <div class="ticket-card premium">
-                <h3>Entrada VIP</h3>
-                <p class="price">$120 USD</p>
-                <ul>
-                    <li>Acceso preferencial</li>
-                    <li>Acceso a Expoferia</li>
-                    <li>Credenciales</li>
-                    <li>Certificado de Asistencia Digital</li>
-                </ul>
-                <button class="btn btn-primary select-ticket" data-type="VIP" data-price="120">Seleccionar</button>
+                <button class="btn btn-primary select-ticket" data-type="Publico Externo" data-price="50">Seleccionar</button>
             </div>
         </div>
 

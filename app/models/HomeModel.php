@@ -46,6 +46,18 @@ class HomeModel extends Model
         return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
     }
 
+    public function getFirstActiveTicketTypeByNames(array $nombres)
+    {
+        foreach ($nombres as $nombre) {
+            $ticket = $this->getTicketTypeByName($nombre);
+            if ($ticket && ($ticket['estado'] ?? '') === 'activo') {
+                return $ticket;
+            }
+        }
+
+        return null;
+    }
+
     public function createParticipant(array $data)
     {
         $sql = "INSERT INTO participantes (

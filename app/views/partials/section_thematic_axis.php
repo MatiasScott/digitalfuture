@@ -1,6 +1,6 @@
 <section id="thematic-axis" class="thematic-axis-section">
     <div class="container">
-        <h2>EJES TEMÁTICOS y LINEAS DEL CONGRESO</h2>
+        <h2>EJES TEMÁTICOS</h2>
 
         <div class="thematic-axis-grid">
 

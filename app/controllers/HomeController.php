@@ -40,12 +40,15 @@ class HomeController
             return;
         }
 
-        $tipoEntrada = $this->homeModel->getTicketTypeByName($tipoEntradaNombre);
-        if (!$tipoEntrada || $tipoEntrada['estado'] !== 'activo') {
+        $ticketConfig = $this->resolveTicketConfig($tipoEntradaNombre);
+        if (!$ticketConfig) {
             $mensajeError = 'Tipo de entrada no valido o inactivo.';
             header('Location: ' . BASE_URL . '/response/error?msg=' . urlencode($mensajeError));
             return;
         }
+
+        $tipoEntrada = $ticketConfig['ticketType'];
+        $monto = $ticketConfig['precio'];
 
         $mensajeError = '';
         $comprobantePath = null;
@@ -101,7 +104,7 @@ class HomeController
             $referencia = 'TRANSFER_' . strtoupper(bin2hex(random_bytes(4)));
             $pagoId = $this->homeModel->createPayment(
                 $participanteId,
-                $tipoEntrada['precio'],
+                $monto,
                 'transferencia',
                 null,
                 $referencia,
@@ -183,12 +186,12 @@ class HomeController
         }
 
         $tipoEntradaNombre = trim($_GET['tipo_entrada']);
-        $tipoEntrada = $this->homeModel->getTicketTypeByName($tipoEntradaNombre);
-        if (!$tipoEntrada || $tipoEntrada['estado'] !== 'activo') {
+        $ticketConfig = $this->resolveTicketConfig($tipoEntradaNombre);
+        if (!$ticketConfig) {
             die('Tipo de entrada no valido.');
         }
 
-        $monto = (float) $tipoEntrada['precio'];
+        $monto = (float) $ticketConfig['precio'];
         $referencia = $_GET['referencia'];
 
         $amount = (int) round($monto * 100);
@@ -232,15 +235,18 @@ class HomeController
         $clientTxId = trim($_POST['clientTransactionId'] ?? '');
         $payphoneId = trim($_POST['transactionId'] ?? '');
 
-        $ticketType = $this->homeModel->getTicketTypeByName($tipo);
-    
-        if (!$ticketType || $ticketType['estado'] !== 'activo') {
+        $ticketConfig = $this->resolveTicketConfig($tipo);
+
+        if (!$ticketConfig) {
             echo json_encode([
                 'success' => false,
                 'message' => 'Tipo de entrada no valido.'
             ]);
             exit;
         }
+
+        $ticketType = $ticketConfig['ticketType'];
+        $monto = $ticketConfig['precio'];
 
         if (!$this->hasRequiredParticipantData($participantData) || empty($clientTxId)) {
             echo json_encode([
@@ -266,7 +272,7 @@ class HomeController
     
             $pagoCreado = $this->homeModel->createPayment(
                 $participanteId,
-                $ticketType['precio'],
+                $monto,
                 'payphone',
                 $payphoneId ?: null,
                 $clientTxId,
@@ -430,6 +436,35 @@ class HomeController
         }
 
         return true;
+    }
+
+    private function resolveTicketConfig($tipoEntradaSeleccionado)
+    {
+        $tipo = strtolower(trim($tipoEntradaSeleccionado));
+
+        if (in_array($tipo, ['estudiante', 'academico', 'académico'])) {
+            $ticketType = $this->homeModel->getFirstActiveTicketTypeByNames(['Estudiante', 'Academico', 'Académico']);
+            if (!$ticketType) {
+                return null;
+            }
+            return [
+                'ticketType' => $ticketType,
+                'precio' => 25.00,
+            ];
+        }
+
+        if (in_array($tipo, ['publico externo', 'público externo', 'externo', 'profesional', 'vip', 'general'])) {
+            $ticketType = $this->homeModel->getFirstActiveTicketTypeByNames(['Profesional', 'General', 'VIP', 'Publico Externo', 'Público Externo']);
+            if (!$ticketType) {
+                return null;
+            }
+            return [
+                'ticketType' => $ticketType,
+                'precio' => 50.00,
+            ];
+        }
+
+        return null;
     }
 
 }

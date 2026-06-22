@@ -1574,7 +1574,7 @@ section {
 .section-title {
     text-align: center;
     font-weight: 800;
-    color: #5b6f3a;
+    color: #7E30BB;
     letter-spacing: 2px;
     margin-bottom: 50px;
     text-transform: uppercase;
@@ -1587,7 +1587,7 @@ section {
 }
 
 .thematic-axis-card {
-    border: 3px solid #9ac21c;
+    border: 3px solid #7E30BB;
     border-radius: 18px;
     padding: 30px 25px;
     display: flex;
@@ -1599,7 +1599,7 @@ section {
 .axis-number {
     font-size: 64px;
     font-weight: 800;
-    color: #ff7a00;
+    color: #CB2E8B;
     line-height: 1;
 }
 
