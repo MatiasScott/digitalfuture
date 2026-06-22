@@ -18,6 +18,6 @@
 <!-- Favicon -->
 <link
     rel="icon"
-    href="<?= BASE_PATH ?>/img/logodigitalfuture.jpg"
+    href="<?= BASE_PATH ?>/img/iconos/favicom.png"
     type="image/x-icon"
 >

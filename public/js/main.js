@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // --- Countdown ---
     function startCountdown() {
-        const countdownDate = new Date("March 12, 2026 00:00:00").getTime();
+        const countdownDate = new Date("July 23, 2026 00:00:00").getTime();
 
         const interval = setInterval(function () {
             const now = new Date().getTime();

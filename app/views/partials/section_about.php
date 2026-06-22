@@ -1,31 +1,11 @@
 <section id="about" class="about-section">
     <div class="container">
-        <h2>Un Congreso para la Innovacion, la Estrategia y la Transformacion Digital</h2>
+        <h2>CONGRESO: Digital Future 2026</h2>
 
         <p style="max-width: 800px; margin: 0 auto 50px; text-align: center; font-size: 1.1em;">
-            El Congreso Digital Future de Marketing Digital se proyecta como un espacio estrategico para compartir tendencias, casos reales, herramientas y metodologias de marketing, comunicacion, contenido, automatizacion, inteligencia artificial y posicionamiento digital, fortaleciendo el intercambio entre academia, empresas y profesionales del sector.
+            Digital Future 2026: Congreso de Marketing Digital, Multimedia e Inteligencia Artificial es un evento académico, científico y tecnológico que reúne a investigadores, profesionales, emprendedores, docentes y estudiantes para compartir conocimientos, experiencias e innovaciones en inteligencia artificial, marketing digital, diseño multimedia y transformación digital.
+El congreso constituye un espacio para la difusión de investigaciones, tendencias y casos de éxito relacionados con la creación de contenido mediante IA, publicidad digital, producción audiovisual, realidad aumentada, comercio electrónico, branding y emprendimiento digital, promoviendo la innovación y el desarrollo tecnológico en diversos sectores.
         </p>
 
-        <div class="about-grid">
-
-            <div class="feature-card">
-                <img src="<?php echo BASE_PATH; ?>/img/icons/IconoCiencia.png" alt="Icono Ciencia">
-                <h3>Dialogo Entre Especialistas del Ecosistema Digital</h3>
-                <p>Reune a profesionales, marcas, docentes y estudiantes para intercambiar enfoques actuales sobre marketing digital, medios, performance y negocio.</p>
-            </div>
-
-            <div class="feature-card">
-                <img src="<?php echo BASE_PATH; ?>/img/icons/IconoInvestigacion.png" alt="Icono Investigador">
-                <h3>Casos, Tendencias y Soluciones Aplicadas</h3>
-                <p>Presenta ponencias, investigaciones, herramientas y experiencias orientadas a conversion, audiencias, contenido y crecimiento digital.</p>
-            </div>
-
-            <div class="feature-card">
-                <img src="<?php echo BASE_PATH; ?>/img/icons/IconoSostenibilidad.png" alt="Icono Sostenibilidad">
-                <h3>Enfoque en Innovacion y Marketing de Alto Impacto</h3>
-                <p>Promueve estrategias medibles, creatividad, analitica y adopcion tecnologica para impulsar marcas y proyectos en canales digitales.</p>
-            </div>
-
-        </div>
     </div>
 </section>

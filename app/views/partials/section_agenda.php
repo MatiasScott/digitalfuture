@@ -5,8 +5,7 @@
             <div class="agenda-text">
                 <h2>AGENDA - ORDEN DEL DÍA</h2>
                 <p>
-                    Programación oficial de actividades académicas, científicas y logísticas
-                    que se desarrollarán durante el evento.
+                    Programación oficial de actividades académicas, científicas y logísticas que se desarrollarán durante el evento.
                 </p>
                 <a href="/docs/orden-del-dia.pdf" class="btn btn-secondary">
                     DESCARGAR ARCHIVO
@@ -33,6 +32,23 @@
 
                 <div class="schedule-entry">
                     <span class="time">10:00 AM - 11:30 AM</span>
+                    <h4 class="activity-title">Conferencias Magistrales</h4>
+                    <p class="activity-desc">Este espacio permitirá fortalecer el conocimiento científico y ampliar la visión profesional de los asistentes mediante experiencias de alto impacto académico.</p>
+                </div>
+
+                <div class="schedule-entry">
+                    <span class="time">12:00 AM - 12:30 AM</span>
+                    <h4 class="activity-title">Launch Break</h4>
+                </div>
+
+                <div class="schedule-entry">
+                    <span class="time">13:00 PM - 15:00 PM</span>
+                    <h4 class="activity-title">Exposicion de Posters Cientificos</h4>
+                    <p class="activity-desc">La exposición de pósters científicos permitirá la presentación visual de investigaciones, proyectos y resultados académicos vinculados al marketing digital.</p>
+                </div>
+
+                <div class="schedule-entry">
+                    <span class="time">15:00 PM - 17:00 PM</span>
                     <h4 class="activity-title">Conferencias Magistrales</h4>
                     <p class="activity-desc">Este espacio permitirá fortalecer el conocimiento científico y ampliar la visión profesional de los asistentes mediante experiencias de alto impacto académico.</p>
                 </div>
@@ -76,13 +92,13 @@
                 <h3 class="timeline-title">Fechas Importantes del Evento</h3>
 
                 <div class="timeline-item">
-                    <span class="timeline-date">22 de Diciembre de 2026 - 02 de Enero del 2026</span>
+                    <span class="timeline-date">12 de junio de 2026 – 14 de julio del 2026</span>
                     <h5 class="timeline-activity">Envío de Artículos Científicos, Posters, Conferencias Magistrales</h5>
                     <p class="timeline-detail">Envío de trabajos académicos y científicos al correo oficial de investigación del ISTIS.</p>
                 </div>
 
                 <div class="timeline-item">
-                    <span class="timeline-date">03 de Febrero de 2026 - 13 de Febrero del 2026</span>
+                    <span class="timeline-date">15 de junio de 2026 – 09 de julio del 2026</span>
                     <h5 class="timeline-activity">Revisiones por pares</h5>
                 </div>
 
@@ -93,7 +109,7 @@
                 </div>
 
                 <div class="timeline-item">
-                    <span class="timeline-date">16 de Febrero de 2026 - 18 de Febrero del 2026</span>
+                    <span class="timeline-date">10 de julio de 2026 – 11 de julio del 2026</span>
                     <h5 class="timeline-activity">Envío y Recepción de Correcciones</h5>
                 </div>
 
