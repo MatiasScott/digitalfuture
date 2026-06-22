@@ -185,6 +185,12 @@ class HomeController
             die('Acceso inválido');
         }
 
+        $participantData = $this->buildParticipantDataFromRequest($_GET);
+        if (!$this->hasRequiredParticipantData($participantData)) {
+            header('Location: ' . BASE_URL . '/response/error?msg=' . urlencode('Faltan datos del participante para procesar el pago con tarjeta.'));
+            exit;
+        }
+
         $tipoEntradaNombre = trim($_GET['tipo_entrada']);
         $ticketConfig = $this->resolveTicketConfig($tipoEntradaNombre);
         if (!$ticketConfig) {
@@ -192,14 +198,59 @@ class HomeController
         }
 
         $monto = (float) $ticketConfig['precio'];
-        $referencia = $_GET['referencia'];
+        $referencia = trim($_GET['referencia']);
+
+        if ($referencia === '') {
+            header('Location: ' . BASE_URL . '/response/error?msg=' . urlencode('No se pudo generar una referencia de pago valida.'));
+            exit;
+        }
+
+        $clientTransactionId = uniqid('DIGITALFUTURE_' . date('Ymd_His') . '_', true);
+
+        try {
+            $existingPayment = $this->homeModel->getPaymentByReference($clientTransactionId);
+
+            if (!$existingPayment) {
+                $this->homeModel->beginTransaction();
+
+                $participanteId = $this->homeModel->getParticipantByEmail($participantData['correo']);
+                if (!$participanteId) {
+                    $participantData['tipo_entrada_id'] = (int) $ticketConfig['ticketType']['id'];
+                    $participanteId = $this->homeModel->createParticipant($participantData);
+                }
+
+                if (!$participanteId) {
+                    throw new Exception('No se pudo registrar al participante para el pago con tarjeta.');
+                }
+
+                $pagoId = $this->homeModel->createPayment(
+                    $participanteId,
+                    $monto,
+                    'payphone',
+                    null,
+                    $clientTransactionId,
+                    'pendiente'
+                );
+
+                if (!$pagoId) {
+                    throw new Exception('No se pudo crear el registro de pago pendiente.');
+                }
+
+                $this->homeModel->commit();
+            }
+        } catch (\Exception $e) {
+            if ($this->homeModel->inTransaction()) {
+                $this->homeModel->rollBack();
+            }
+
+            header('Location: ' . BASE_URL . '/response/error?msg=' . urlencode('No fue posible iniciar el pago con tarjeta: ' . $e->getMessage()));
+            exit;
+        }
 
         $amount = (int) round($monto * 100);
 
         $tax = 0;
         $amountWithoutTax = $amount;
-
-        $clientTransactionId = uniqid('DIGITALFUTURE_' . date('Ymd_His') . '_', true);
 
         $GLOBALS['esPasarelaPayphone'] = true;
         $GLOBALS['clientTransactionId'] = $clientTransactionId;
@@ -259,17 +310,26 @@ class HomeController
         try {
             $this->homeModel->beginTransaction();
 
+            $existingPayment = $this->homeModel->getPaymentByReference($clientTxId);
+
+            if ($existingPayment) {
+                $this->homeModel->updatePaymentStatusByReference($clientTxId, 'aprobado', $payphoneId ?: null);
+                $this->homeModel->commit();
+                echo json_encode(['success' => true, 'id' => (int) $existingPayment['id']]);
+                exit;
+            }
+
             $participanteId = $this->homeModel->getParticipantByEmail($participantData['correo']);
-    
+
             if (!$participanteId) {
                 $participantData['tipo_entrada_id'] = (int) $ticketType['id'];
                 $participanteId = $this->homeModel->createParticipant($participantData);
             }
-    
+
             if (!$participanteId) {
                 throw new Exception("No se pudo crear ni encontrar al participante.");
             }
-    
+
             $pagoCreado = $this->homeModel->createPayment(
                 $participanteId,
                 $monto,
@@ -278,9 +338,8 @@ class HomeController
                 $clientTxId,
                 'aprobado'
             );
-    
+
             if ($pagoCreado) {
-                $this->homeModel->updatePaymentStatusByReference($clientTxId, 'aprobado', $payphoneId ?: null);
                 $this->homeModel->commit();
                 echo json_encode(['success' => true, 'id' => $pagoCreado]);
             } else {

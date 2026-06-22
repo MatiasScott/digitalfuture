@@ -13,17 +13,38 @@ document.addEventListener('DOMContentLoaded', function () {
             const type = this.getAttribute('data-type');
             const price = this.getAttribute('data-price');
 
+            if (!typeInput || !amountInput) {
+                return;
+            }
+
             typeInput.value = type;
             amountInput.value = price;
 
-            summaryType.textContent = type.charAt(0).toUpperCase() + type.slice(1);
-            summaryAmount.textContent = `$${price} USD`;
+            if (summaryType) {
+                summaryType.textContent = type.charAt(0).toUpperCase() + type.slice(1);
+            }
+            if (summaryAmount) {
+                summaryAmount.textContent = `$${price} USD`;
+            }
 
             document.querySelectorAll('.ticket-card').forEach(card => card.classList.remove('selected'));
             this.closest('.ticket-card').classList.add('selected');
 
-            registrationLayout.style.display = 'flex';
-            registrationLayout.scrollIntoView({ behavior: 'smooth' });
+            // Actualizar previews del modal trigger
+            const tipoPreview   = document.getElementById('modal-tipo-preview');
+            const precioPreview = document.getElementById('modal-precio-preview');
+            if (tipoPreview)   tipoPreview.textContent   = type;
+            if (precioPreview) precioPreview.textContent = '$' + price + ' USD';
+
+            // Mostrar área de botones del modal
+            const triggerArea = document.getElementById('modal-trigger-area');
+            if (triggerArea) {
+                triggerArea.style.display = 'block';
+                triggerArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else if (registrationLayout) {
+                registrationLayout.style.display = 'flex';
+                registrationLayout.scrollIntoView({ behavior: 'smooth' });
+            }
 
         });
     });
@@ -92,6 +113,80 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     startCountdown();
+
+    // --- PARTÍCULAS HERO ---
+    (function initParticles() {
+        const hero = document.querySelector('.hero-section');
+        if (!hero) return;
+        const canvas = document.createElement('canvas');
+        canvas.id = 'particles-canvas';
+        hero.prepend(canvas);
+        const ctx = canvas.getContext('2d');
+        let w, h, particles = [];
+        const COUNT = 80;
+        const COLORS = ['rgba(1,101,217,.7)', 'rgba(0,181,244,.6)', 'rgba(94,54,201,.5)'];
+
+        function resize() {
+            w = canvas.width  = hero.offsetWidth;
+            h = canvas.height = hero.offsetHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        function randomParticle() {
+            return {
+                x: Math.random() * w,
+                y: Math.random() * h,
+                r: Math.random() * 2 + .5,
+                vx: (Math.random() - .5) * .4,
+                vy: (Math.random() - .5) * .4,
+                color: COLORS[Math.floor(Math.random() * COLORS.length)]
+            };
+        }
+        for (let i = 0; i < COUNT; i++) particles.push(randomParticle());
+
+        function draw() {
+            ctx.clearRect(0, 0, w, h);
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.fill();
+            });
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 100) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(0,181,244,${(.18 * (1 - dist / 100)).toFixed(3)})`;
+                        ctx.lineWidth = .6;
+                        ctx.stroke();
+                    }
+                }
+            }
+            particles.forEach(p => {
+                p.x += p.vx; p.y += p.vy;
+                if (p.x < 0 || p.x > w) p.vx *= -1;
+                if (p.y < 0 || p.y > h) p.vy *= -1;
+            });
+            requestAnimationFrame(draw);
+        }
+        draw();
+    })();
+
+    // --- INTERSECTION OBSERVER (scroll reveal) ---
+    (function initReveal() {
+        const targets = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+        if (!targets.length) return;
+        const io = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+        }, { threshold: 0.12 });
+        targets.forEach(t => io.observe(t));
+    })();
 
     // --- MENÚ HAMBURGUESA (AQUÍ ES DONDE DEBE IR) ---
     const menuToggle = document.querySelector('.menu-toggle');

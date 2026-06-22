@@ -62,6 +62,12 @@ function e($value)
                 📥 Descargar Aprobados (Excel)
             </a>
 
+            <select id="methodFilter" class="search-input" aria-label="Filtrar por método de pago">
+                <option value="">Todos los metodos</option>
+                <option value="payphone">Tarjeta</option>
+                <option value="transferencia">Transferencia</option>
+            </select>
+
             <input type="text" id="searchInput" class="search-input" placeholder="Buscar por nombre, email o ID...">
         </div>
 
@@ -87,7 +93,7 @@ function e($value)
                         </tr>
                     <?php else: ?>
                         <?php foreach ($participantes as $p): ?>
-                            <tr>
+                            <tr data-metodo="<?= e(strtolower($p['metodo_pago'] ?? '')) ?>">
                                 <td><strong>#<?= e($p['participante_id']) ?></strong></td>
                                 <td><?= e($p['participante_nombre']) ?></td>
                                 <td><?= e($p['correo']) ?></td>
@@ -98,17 +104,34 @@ function e($value)
                                     <span class="status-pill status-<?= strtolower($p['estado']) ?>">
                                         <?= e(ucfirst($p['estado'])) ?>
                                     </span>
+
+                                    <?php if (($p['metodo_pago'] ?? '') === 'payphone'): ?>
+                                        <span class="method-pill method-payphone">Tarjeta</span>
+                                        <?php if (($p['estado'] ?? '') === 'pendiente'): ?>
+                                            <span class="payphone-pill payphone-pending">Pendiente confirmación</span>
+                                        <?php elseif (($p['estado'] ?? '') === 'aprobado'): ?>
+                                            <span class="payphone-pill payphone-approved">Confirmado PayPhone</span>
+                                        <?php elseif (($p['estado'] ?? '') === 'rechazado'): ?>
+                                            <span class="payphone-pill payphone-rejected">Rechazado PayPhone</span>
+                                        <?php endif; ?>
+                                    <?php else: ?>
+                                        <span class="method-pill method-transfer">Transferencia</span>
+                                    <?php endif; ?>
                                 </td>
 
                                 <td><?= date('d/m/Y', strtotime($p['fecha_registro'])) ?></td>
 
                                 <td>
-                                    <?php if (!empty($p['comprobante_ruta'])): ?>
-                                        <?php if ($p['metodo_pago'] === 'payphone'): ?>
-                                            <span class="badge bg-info text-dark" title="<?= e($p['transaction_id'] ?? '') ?>">Pago Digital</span>
+                                    <?php if (($p['metodo_pago'] ?? '') === 'payphone'): ?>
+                                        <?php if (!empty($p['transaction_id'])): ?>
+                                            <span class="payphone-tx" title="<?= e($p['transaction_id']) ?>">
+                                                TX: <?= e($p['transaction_id']) ?>
+                                            </span>
                                         <?php else: ?>
-                                            <a href="<?= BASE_PATH . e($p['comprobante_ruta']) ?>" target="_blank" class="action-btn view-btn">Ver archivo</a>
+                                            <span class="text-muted">Sin TX confirmada</span>
                                         <?php endif; ?>
+                                    <?php elseif (!empty($p['comprobante_ruta'])): ?>
+                                            <a href="<?= BASE_PATH . e($p['comprobante_ruta']) ?>" target="_blank" class="action-btn view-btn">Ver archivo</a>
                                     <?php else: ?>
                                         <span class="text-muted">Sin archivo</span>
                                     <?php endif; ?>
@@ -137,16 +160,30 @@ function e($value)
 </main>
 
 <script>
-    // Buscador en tiempo real
-    document.getElementById('searchInput').addEventListener('keyup', function() {
-        let value = this.value.toLowerCase();
-        document.querySelectorAll("tbody tr").forEach(row => {
-            // No ocultar la fila de "No hay registros"
-            if (row.cells.length > 1) {
-                row.style.display = row.textContent.toLowerCase().includes(value) ? "" : "none";
+    const searchInput = document.getElementById('searchInput');
+    const methodFilter = document.getElementById('methodFilter');
+
+    function applyDashboardFilters() {
+        const textValue = (searchInput.value || '').toLowerCase();
+        const methodValue = (methodFilter.value || '').toLowerCase();
+
+        document.querySelectorAll('tbody tr').forEach(row => {
+            if (row.cells.length <= 1) {
+                return;
             }
+
+            const rowText = row.textContent.toLowerCase();
+            const rowMethod = (row.dataset.metodo || '').toLowerCase();
+
+            const matchesText = rowText.includes(textValue);
+            const matchesMethod = methodValue === '' || rowMethod === methodValue;
+
+            row.style.display = (matchesText && matchesMethod) ? '' : 'none';
         });
-    });
+    }
+
+    searchInput.addEventListener('keyup', applyDashboardFilters);
+    methodFilter.addEventListener('change', applyDashboardFilters);
 </script>
 
 <?php require_once __DIR__ . '/../partials/admin_footer.php'; ?>

@@ -1,4 +1,4 @@
-<footer class="main-footer">
+<footer class="main-footer" aria-label="Footer">
     <div class="container">
 
         <div class="footer-grid">

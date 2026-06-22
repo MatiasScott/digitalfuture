@@ -188,4 +188,19 @@ class HomeModel extends Model
         ]);
     }
 
+    public function getPaymentByReference($referencia)
+    {
+        $sql = "SELECT id, participante_id, referencia, estado, transaction_id
+                FROM pagos
+                WHERE referencia = :referencia
+                ORDER BY id DESC
+                LIMIT 1";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':referencia', $referencia);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+    }
+
 }

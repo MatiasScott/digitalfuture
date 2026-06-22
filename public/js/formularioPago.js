@@ -25,37 +25,26 @@ function datosBasicosValidos() {
     );
 }
 
-// 🧾 TRANSFERENCIA
+// 🧾 TRANSFERENCIA  — el modal ya muestra el comprobante; aquí solo configuramos el form y lo enviamos
 function mostrarTransferencia(event) {
     if (!datosBasicosValidos()) {
-        if (event) {
-            event.preventDefault();
-        }
+        if (event) event.preventDefault();
         alert('Completa todos los datos obligatorios del formulario.');
         return;
     }
 
-    const seccionComprobante = document.getElementById('comprobante-section');
     const form = document.getElementById('registration-form');
-
     form.action = BASE_URL + "/home/procesarPago";
     form.method = "POST";
 
-    // Si la secci�n no es visible, la mostramos y detenemos el env�o
-    if (seccionComprobante.style.display === 'none' || seccionComprobante.style.display === '') {
-        if (event) {
-            event.preventDefault();
-        }
-
-        seccionComprobante.style.display = 'block';
-        document.getElementById('comprobante').required = true;
-
-        alert('Ahora selecciona el comprobante y vuelve a presionar el bot�n para finalizar.');
-
+    const comprobanteInput = document.getElementById('comprobante');
+    // Si el archivo aún no está seleccionado, pedirlo y detener
+    if (!comprobanteInput.files || comprobanteInput.files.length === 0) {
+        if (event) event.preventDefault();
+        alert('Por favor adjunta el comprobante de pago antes de enviar.');
         return;
     }
-
-    // Si ya es visible, el submit natural del boton enviara el formulario.
+    // Todo ok → el submit natural enviará el formulario
 }
 
 
@@ -102,9 +91,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const layout = document.querySelector('.registration-layout');
     const summaryType = document.getElementById('summary-type');
     const summaryAmount = document.getElementById('summary-amount');
+    const triggerArea = document.getElementById('modal-trigger-area');
+    const modalTipoPreview = document.getElementById('modal-tipo-preview');
+    const modalPrecioPreview = document.getElementById('modal-precio-preview');
 
     const ticketTypeInput = document.getElementById('ticket-type-input');
     const amountInput = document.getElementById('amount-input');
+
+    if (!ticketTypeInput || !amountInput) {
+        return;
+    }
 
     document.querySelectorAll('.select-ticket').forEach(button => {
         button.addEventListener('click', () => {
@@ -116,15 +112,36 @@ document.addEventListener('DOMContentLoaded', () => {
             ticketTypeInput.value = tipo;
             amountInput.value = precio;
 
-            summaryType.textContent = tipo;
-            summaryAmount.textContent = `$${precio} USD`;
+            if (summaryType) {
+                summaryType.textContent = tipo;
+            }
+            if (summaryAmount) {
+                summaryAmount.textContent = `$${precio} USD`;
+            }
 
-            // 🔥 MOSTRAR FORMULARIO
-            layout.style.display = 'flex';
+            if (modalTipoPreview) {
+                modalTipoPreview.textContent = tipo;
+            }
+            if (modalPrecioPreview) {
+                modalPrecioPreview.textContent = `$${precio} USD`;
+            }
 
-            // Scroll suave al formulario
-            layout.scrollIntoView({ behavior: 'smooth' });
+            // Mostrar flujo actual del modal; fallback al layout anterior si existe.
+            if (triggerArea) {
+                triggerArea.style.display = 'block';
+                triggerArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else if (layout) {
+                layout.style.display = 'flex';
+                layout.scrollIntoView({ behavior: 'smooth' });
+            }
         });
     });
+
+    if (triggerArea) {
+        triggerArea.style.display = 'none';
+    }
+    if (layout) {
+        layout.style.display = 'none';
+    }
 
 });

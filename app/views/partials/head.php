@@ -5,6 +5,8 @@
 
 <!-- CSS principal -->
 <link rel="stylesheet" href="<?= BASE_PATH ?>/css/styles.css">
+<!-- CSS futurista complementario CIMDIA 2026 -->
+<link rel="stylesheet" href="<?= BASE_PATH ?>/css/futurista.css">
 
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">

@@ -1,7 +1,7 @@
-<section id="agenda" class="agenda-section">
+<section id="agenda" class="agenda-section" aria-label="Agenda">
     <div class="container">
 
-        <div class="agenda-header-info">
+        <div class="agenda-header-info reveal">
             <div class="agenda-text">
                 <h2>AGENDA - ORDEN DEL DÍA</h2>
                 <p>
@@ -12,7 +12,7 @@
                 </a>
             </div>
 
-            <div class="agenda-image">
+            <div class="agenda-image reveal-right">
                 <img src="<?php echo BASE_PATH; ?>/img/icons/IconoAgenda.png" alt="Agenda - Orden del día">
             </div>
         </div>
@@ -20,7 +20,7 @@
 
         <div class="schedule-grid">
 
-            <div class="day-column">
+            <div class="day-column reveal-left">
                 <h3 class="day-title">Primer Día</h3>
                 <p class="day-date">12 Jueves, Marzo</p>
 
@@ -55,7 +55,7 @@
 
             </div>
 
-            <div class="day-column">
+            <div class="day-column reveal-right">
                 <h3 class="day-title">Segundo Día</h3>
                 <p class="day-date">13 Viernes, Marzo</p>
 
