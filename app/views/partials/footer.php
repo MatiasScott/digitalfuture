@@ -31,8 +31,18 @@
 
             <div class="col-contact">
                 <h4>Contacto</h4>
-                <p>Email: congresodigitalfuture@superarse.edu.ec</p>
-                <p>Teléfono: +593 99 883 6452 / +593 98 387 3798</p>
+                <p>
+                    Teléfono:
+                    <a href="https://wa.me/593998836452" target="_blank">+593 99 883 6452</a> o al
+                    <a href="https://wa.me/593983873798" target="_blank">+593 98 387 3798</a>
+                </p>
+
+                <p>
+                    Email:
+                    <a href="mailto:congresodigitalfuture@superarse.edu.ec">
+                        congresodigitalfuture@superarse.edu.ec
+                    </a>
+                </p>
             </div>
 
         </div>

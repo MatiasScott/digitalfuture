@@ -7,7 +7,7 @@
                 <p>
                     Programación oficial de actividades académicas, científicas y logísticas que se desarrollarán durante el evento.
                 </p>
-                <a href="/docs/orden-del-dia.pdf" class="btn btn-secondary">
+                <a href="#" class="btn btn-secondary">
                     DESCARGAR ARCHIVO
                 </a>
             </div>
@@ -95,7 +95,7 @@
             <h3>ORGANIZACION - CRONOGRAMA</h3>
             <p class="cronograma-desc">Cronograma general y organización de gestión del congreso</p>
             <div class="btn-center">
-                <a href="/docs/cronograma-organizacion.pdf" class="btn btn-secondary">
+                <a href="#" class="btn btn-secondary">
                     DESCARGAR CRONOGRAMA
                 </a>
             </div>

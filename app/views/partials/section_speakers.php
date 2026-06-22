@@ -2,8 +2,10 @@
     <div class="container">
         <h2>Conoce a los Expertos</h2>
         <div class="speaker-grid">
+
+        <h2>Proximamente</h3>
             
-            <article class="speaker-card">
+            <!--<article class="speaker-card">
                 <img src="#" alt="Mvz. Hugo Patricio Sandoval Valencia">
                 <h3>Mvz. Hugo Patricio Sandoval Valencia</h3>
                 <p class="specialty">Enfermedades zoonóticas y su impacto en la salud pública</p>
@@ -22,7 +24,7 @@
                 <h3>Ing. Bolívar Andrés Guamán Robles</h3>
                 <p class="specialty">Eficiancia comporativa de métodos biotecnológicos de tratamiento de residuos orgánicos</p>
                 <span class="country">Ecuador</span>
-            </article>
+            </article>-->
 
             </div>
     </div>

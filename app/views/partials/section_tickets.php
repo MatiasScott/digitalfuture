@@ -22,7 +22,7 @@
                     <li>Acceso a todas las conferencias</li>
                     <li>Kit</li>
                     <li>Credenciales</li>
-                    <li>Certificado de Asistencia Digital</li>
+                    <li>Certificado</li>
                 </ul>
                 <button class="btn btn-primary select-ticket" data-type="Publico Externo" data-price="50">Seleccionar</button>
             </div>
@@ -34,12 +34,12 @@
 
             <div class="bank-details-card">
                 <ul>
-                    <li><strong>Razón Social:</strong> INSTITUTO DE INVESTIGACIÓN E INNOVACIÓN SUPERARSE</li>
-                    <li><strong>Tipo de Cuenta:</strong> Cuenta Corriente</li>
-                    <li><strong>Banco:</strong> Banco Pichincha</li>
-                    <li><strong>Número de Cuenta:</strong> 2100122603</li>
-                    <li><strong>RUC:</strong> 1792660432001</li>
-                    <li><strong>Correo de Contacto:</strong> israel.proano@nexodigitalmark.com</li>
+                    <li><strong>Razón Social:</strong> <p>INSTITUTO DE INVESTIGACIÓN E INNOVACIÓN SUPERARSE</p></li>
+                    <li><strong>Tipo de Cuenta:</strong> <p>Cuenta Corriente</p></li>
+                    <li><strong>Banco:</strong> <p>Banco Pichincha</p></li>
+                    <li><strong>Número de Cuenta:</strong> <p>2100122603</p></li>
+                    <li><strong>RUC:</strong> <p>1792660432001</p></li>
+                    <li><strong>Correo de Contacto:</strong> <p>israel.proano@nexodigitalmark.com</p></li>
                 </ul>
             </div>
 
