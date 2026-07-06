@@ -30,7 +30,9 @@ define('PUBLIC_PATH', PROJECT_ROOT . '/public');
 $scriptDir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '/'));
 $scriptDir = rtrim($scriptDir, '/');
 if ($scriptDir === '') {
-    $scriptDir = '/';
+    // Si la app corre en la raíz del dominio, usar cadena vacía evita URLs "//ruta"
+    // al concatenar BASE_URL con rutas absolutas (ej: BASE_URL . '/admin/authenticate').
+    $scriptDir = '';
 }
 define('BASE_URL', $scriptDir);
 
