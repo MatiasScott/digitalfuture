@@ -198,4 +198,130 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // --- CARRUSEL DE SPEAKERS ---
+    (function initSpeakersCarousel() {
+        const carousel = document.querySelector('[data-carousel="speakers"]');
+        if (!carousel) return;
+
+        const wrapper = carousel.querySelector('.speaker-track-wrapper');
+        const track = carousel.querySelector('.speaker-track');
+        const slides = Array.from(carousel.querySelectorAll('.speaker-slide'));
+        const prevBtn = carousel.querySelector('.speaker-control-prev');
+        const nextBtn = carousel.querySelector('.speaker-control-next');
+        const dotsContainer = document.querySelector('.speaker-dots');
+
+        if (!wrapper || !track || !slides.length || !prevBtn || !nextBtn || !dotsContainer) {
+            return;
+        }
+
+        let currentPage = 0;
+        let slidesPerView = 2;
+        let autoplayTimer = null;
+        const AUTOPLAY_MS = 3500;
+
+        function getSlidesPerView() {
+            if (window.innerWidth <= 768) return 1;
+            return 2;
+        }
+
+        function getTotalPages() {
+            return Math.max(1, Math.ceil(slides.length / slidesPerView));
+        }
+
+        function renderDots(totalPages) {
+            dotsContainer.innerHTML = '';
+            for (let i = 0; i < totalPages; i++) {
+                const dot = document.createElement('button');
+                dot.className = 'speaker-dot';
+                dot.type = 'button';
+                dot.setAttribute('aria-label', `Ir al grupo ${i + 1}`);
+                dot.addEventListener('click', function () {
+                    currentPage = i;
+                    updateCarousel();
+                });
+                dotsContainer.appendChild(dot);
+            }
+        }
+
+        function getStartIndex() {
+            return Math.min(currentPage * slidesPerView, slides.length - 1);
+        }
+
+        function updateCarousel() {
+            slidesPerView = getSlidesPerView();
+            const totalPages = getTotalPages();
+            currentPage = Math.min(currentPage, totalPages - 1);
+
+            const startIndex = getStartIndex();
+            const offset = slides[startIndex].offsetLeft;
+
+            track.style.transform = `translateX(-${offset}px)`;
+
+            prevBtn.disabled = currentPage === 0;
+            nextBtn.disabled = currentPage >= totalPages - 1;
+
+            const dots = dotsContainer.querySelectorAll('.speaker-dot');
+            if (dots.length !== totalPages) {
+                renderDots(totalPages);
+            }
+
+            dotsContainer.querySelectorAll('.speaker-dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentPage);
+            });
+
+            if (totalPages <= 1) {
+                stopAutoplay();
+            }
+        }
+
+        function nextPage() {
+            const totalPages = getTotalPages();
+            currentPage = currentPage < totalPages - 1 ? currentPage + 1 : 0;
+            updateCarousel();
+        }
+
+        function startAutoplay() {
+            if (autoplayTimer) return;
+            if (getTotalPages() <= 1) return;
+            autoplayTimer = setInterval(nextPage, AUTOPLAY_MS);
+        }
+
+        function stopAutoplay() {
+            if (!autoplayTimer) return;
+            clearInterval(autoplayTimer);
+            autoplayTimer = null;
+        }
+
+        prevBtn.addEventListener('click', function () {
+            const totalPages = getTotalPages();
+            currentPage = currentPage > 0 ? currentPage - 1 : totalPages - 1;
+            updateCarousel();
+            stopAutoplay();
+            startAutoplay();
+        });
+
+        nextBtn.addEventListener('click', function () {
+            nextPage();
+            stopAutoplay();
+            startAutoplay();
+        });
+
+        window.addEventListener('resize', updateCarousel);
+        wrapper.addEventListener('mouseenter', stopAutoplay);
+        wrapper.addEventListener('mouseleave', startAutoplay);
+        wrapper.addEventListener('focusin', stopAutoplay);
+        wrapper.addEventListener('focusout', startAutoplay);
+        document.addEventListener('visibilitychange', function () {
+            if (document.hidden) {
+                stopAutoplay();
+            } else {
+                startAutoplay();
+            }
+        });
+
+        renderDots(getTotalPages());
+        updateCarousel();
+        startAutoplay();
+    })();
+
 });
