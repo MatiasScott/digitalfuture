@@ -55,36 +55,74 @@ class HomeController
         $comprobanteNombre = null;
         $comprobanteMime = null;
 
-        if (isset($_FILES['comprobante']) && $_FILES['comprobante']['error'] === UPLOAD_ERR_OK) {
+        if (!isset($_FILES['comprobante'])) {
+            $mensajeError = 'Debe adjuntar el comprobante de pago.';
+        } else {
             $file = $_FILES['comprobante'];
-            $targetDir = PUBLIC_PATH . '/uploads/';
+            $uploadError = (int) ($file['error'] ?? UPLOAD_ERR_NO_FILE);
 
-            $allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
-            $maxSize = 5 * 1024 * 1024;
-
-            if (!in_array($file['type'], $allowedTypes)) {
-                $mensajeError = 'Tipo de archivo no permitido. Solo JPG, PNG y PDF.';
-            } elseif ($file['size'] > $maxSize) {
-                $mensajeError = 'El archivo es demasiado grande (máx. 5MB).';
+            if ($uploadError !== UPLOAD_ERR_OK) {
+                $mensajeError = $this->mapUploadErrorMessage($uploadError);
             } else {
-                $fileExtension = pathinfo($file['name'], PATHINFO_EXTENSION);
-                $fileName = time() . '_' . uniqid() . '.' . $fileExtension;
-                $targetFile = $targetDir . $fileName;
+                $targetDir = rtrim(PUBLIC_PATH, '/\\') . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR;
 
-                if (!is_dir($targetDir)) {
-                    mkdir($targetDir, 0777, true);
-                }
+                $allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+                $maxSize = 5 * 1024 * 1024;
+                $detectedMime = $this->detectUploadedMimeType($file);
 
-                if (move_uploaded_file($file['tmp_name'], $targetFile)) {
-                    $comprobantePath = '/uploads/' . $fileName;
-                    $comprobanteNombre = $fileName;
-                    $comprobanteMime = $file['type'];
+                if (!in_array($detectedMime, $allowedTypes, true)) {
+                    $mensajeError = 'Tipo de archivo no permitido. Solo JPG, PNG y PDF.';
+                } elseif ((int) $file['size'] > $maxSize) {
+                    $mensajeError = 'El archivo es demasiado grande (máx. 5MB).';
                 } else {
-                    $mensajeError = 'Error interno al guardar el archivo. Revisa permisos.';
+                    $fileExtension = strtolower((string) pathinfo((string) ($file['name'] ?? ''), PATHINFO_EXTENSION));
+
+                    if ($fileExtension === '') {
+                        $extByMime = [
+                            'image/jpeg' => 'jpg',
+                            'image/png' => 'png',
+                            'application/pdf' => 'pdf',
+                        ];
+                        $fileExtension = $extByMime[$detectedMime] ?? 'bin';
+                    }
+
+                    $fileName = time() . '_' . uniqid() . '.' . $fileExtension;
+                    $targetFile = $targetDir . $fileName;
+
+                    if (!is_dir($targetDir) && !mkdir($targetDir, 0775, true)) {
+                        $mensajeError = 'No se pudo preparar la carpeta de subida. Revisa permisos del servidor.';
+                    } elseif (!is_uploaded_file($file['tmp_name'])) {
+                        $mensajeError = 'No se detecto un archivo valido para subir.';
+                    } else {
+                        // Intentar normalizar permisos de carpeta en hosting Linux/Apache.
+                        if (!is_writable($targetDir)) {
+                            @chmod($targetDir, 0775);
+                            @chmod($targetDir, 0777);
+                        }
+
+                        if (move_uploaded_file($file['tmp_name'], $targetFile)) {
+                            $comprobantePath = '/uploads/' . $fileName;
+                            $comprobanteNombre = $fileName;
+                            $comprobanteMime = $detectedMime;
+                        } else {
+                            $lastError = error_get_last();
+                            $lastMessage = is_array($lastError) ? ($lastError['message'] ?? 'sin detalle') : 'sin detalle';
+                            error_log(
+                                'Error al mover comprobante. tmp=' . ($file['tmp_name'] ?? '') .
+                                ' destino=' . $targetFile .
+                                ' writable=' . (is_writable($targetDir) ? 'si' : 'no') .
+                                ' php_error=' . $lastMessage
+                            );
+
+                            if (!is_writable($targetDir)) {
+                                $mensajeError = 'La carpeta de subida no tiene permisos de escritura.';
+                            } else {
+                                $mensajeError = 'Error interno al guardar el archivo. Intenta nuevamente.';
+                            }
+                        }
+                    }
                 }
             }
-        } else {
-            $mensajeError = 'Debe adjuntar el comprobante de pago o hubo un error en la subida.';
         }
 
         if (!empty($mensajeError)) {
@@ -524,6 +562,44 @@ class HomeController
         }
 
         return null;
+    }
+
+    private function mapUploadErrorMessage($uploadError)
+    {
+        switch ($uploadError) {
+            case UPLOAD_ERR_INI_SIZE:
+            case UPLOAD_ERR_FORM_SIZE:
+                return 'El archivo excede el tamano permitido por el servidor (max. 5MB).';
+            case UPLOAD_ERR_PARTIAL:
+                return 'La carga del archivo fue incompleta. Intenta nuevamente.';
+            case UPLOAD_ERR_NO_FILE:
+                return 'Debe adjuntar el comprobante de pago.';
+            case UPLOAD_ERR_NO_TMP_DIR:
+                return 'Falta la carpeta temporal del servidor para subir archivos.';
+            case UPLOAD_ERR_CANT_WRITE:
+                return 'No se pudo escribir el archivo en disco. Revisa permisos del servidor.';
+            case UPLOAD_ERR_EXTENSION:
+                return 'Una extension de PHP bloqueo la subida del archivo.';
+            default:
+                return 'Ocurrio un error al subir el archivo.';
+        }
+    }
+
+    private function detectUploadedMimeType($file)
+    {
+        $tmpName = (string) ($file['tmp_name'] ?? '');
+        if ($tmpName !== '' && function_exists('finfo_open')) {
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            if ($finfo !== false) {
+                $mime = finfo_file($finfo, $tmpName);
+                finfo_close($finfo);
+                if (is_string($mime) && $mime !== '') {
+                    return $mime;
+                }
+            }
+        }
+
+        return (string) ($file['type'] ?? 'application/octet-stream');
     }
 
 }
