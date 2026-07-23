@@ -432,11 +432,12 @@ class HomeController
 
     public function payphoneResponse()
     {
-        $id = $_GET['id'] ?? null;
-        $clientTxId = $_GET['clientTransactionId'] ?? null;
-    
-        if (!$id || !$clientTxId) {
-            die('Respuesta inválida');
+        $id = (int) ($_GET['id'] ?? $_GET['transactionId'] ?? 0);
+        $clientTxId = trim($_GET['clientTransactionId'] ?? $_GET['clientTxId'] ?? '');
+
+        if ($id <= 0 || $clientTxId === '') {
+            header('Location: ' . BASE_URL . '/response/error?msg=' . urlencode('Respuesta de pago incompleta. Intenta nuevamente.'));
+            exit;
         }
     
         if (PAYPHONE_TOKEN === '') {
@@ -475,14 +476,22 @@ class HomeController
             die('Respuesta Payphone inválida');
         }
     
-        if ($result['statusCode'] == 3) {
+        if ((int) $result['statusCode'] === 3) {
             $this->homeModel->updatePaymentStatusByReference(
                 $clientTxId,
                 'aprobado',
                 $result['transactionId']
             );
-    
-            header('Location: ' . BASE_URL . '/response/confirmacion');
+
+            $payment = $this->homeModel->getPaymentByReference($clientTxId);
+            $paymentId = (int) ($payment['id'] ?? 0);
+            $mensaje = 'Inscripcion exitosa. Tu comprobante sera validado por un administrador.';
+
+            if ($paymentId > 0) {
+                $mensaje .= ' ID de pago: ' . $paymentId;
+            }
+
+            header('Location: ' . BASE_URL . '/response/confirmacion?msg=' . urlencode($mensaje));
             exit;
         }
     
